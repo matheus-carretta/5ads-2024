@@ -7,9 +7,6 @@ app.get('/', (req, res) => res.status(200).json(
 ));
 
 app.get("/query", (req, res) => {
-  console.log(req.query)
-
-
   if ( !req.query.nome ){
     return res.status(404).json(
       { message: "Não foi possível encontrar a query nome"}
@@ -20,6 +17,12 @@ app.get("/query", (req, res) => {
   return res.status(200).json(
     { nome: req.query.nome, sobrenome: req.query.sobrenome }
   )
+})
+
+app.get("/params/:id", (req, res) => {
+  console.log(req.params)
+
+  return res.status(200).json(req.params)
 })
 
 module.exports = app;
