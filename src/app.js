@@ -37,7 +37,7 @@ app.put('/teams/:id', (req, res) => {
   }
   updateTeam.nome = nome;
   updateTeam.sigla = sigla;
-  res.status(200).json({ updateTeam });
+  return res.status(200).json({ updateTeam });
 });
 
 
