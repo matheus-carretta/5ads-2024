@@ -31,7 +31,7 @@ app.post("/teams", (req, res) => {
 app.put('/teams/:id', (req, res) => {
   const { id } = req.params;
   const { nome, sigla } = req.body;
-  const updateTeam = teams.find((team) => team.id === Number(id));
+  const updateTeam = timesArray.find((team) => team.id === Number(id));
   if (!updateTeam) {
     return res.status(404).json({ message: 'Team not found' });
   }
@@ -39,8 +39,6 @@ app.put('/teams/:id', (req, res) => {
   updateTeam.sigla = sigla;
   return res.status(200).json({ updateTeam });
 });
-
-
 
 app.get('/', (req, res) => res.status(200).json(
   { message: "Olá mundo"}
