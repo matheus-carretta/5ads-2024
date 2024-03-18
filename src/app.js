@@ -40,6 +40,14 @@ app.put('/teams/:id', (req, res) => {
   return res.status(200).json({ updateTeam });
 });
 
+app.delete('/teams/:id', (req, res) => {
+  const { id } = req.params;
+  const arrayPosition = timesArray.findIndex((team) => team.id === Number(id));
+  timesArray.splice(arrayPosition, 1);
+
+  res.status(200).end();
+});
+
 app.get('/', (req, res) => res.status(200).json(
   { message: "Olá mundo"}
 ));
