@@ -48,6 +48,18 @@ app.delete('/teams/:id', (req, res) => {
   res.status(200).end();
 });
 
+app.get("/teams/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const team = timesArray.find((team) => team.id === id)
+
+  if (!team) {
+    return res.status(404).json({ message: "Time não encontrado!"})
+  }
+
+  return res.status(200).json({ team })
+})
+
 app.get('/', (req, res) => res.status(200).json(
   { message: "Olá mundo"}
 ));
