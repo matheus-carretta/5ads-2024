@@ -15,29 +15,40 @@ const timesArray = [
   }
 ]
 
+const validateTeam = (req, res, next) => {
+  const requiredBody = ['nome', 'sigla'];
+
+  if (requiredBody.every((property) => property in req.body)) {
+    next()
+  } else {
+    return res.status(400).json( { message: "Body incorreto"})
+  }
+}
+
 app.use(express.json());
 
 app.get("/teams", (req, res) => res.status(200).json(
   { teams: timesArray}
 ))
 
-app.post("/teams", (req, res) => {
-  const newTeam = req.body;
-  timesArray.push(newTeam)
-
-  return res.status(201).json({ team: newTeam })
+app.post("/teams", validateTeam, (req, res) => {
+  console.log('aloooo')
+    const newTeam = req.body;
+    timesArray.push(newTeam)
+    return res.status(201).json({ team: newTeam })
 })
 
-app.put('/teams/:id', (req, res) => {
-  const { id } = req.params;
-  const { nome, sigla } = req.body;
-  const updateTeam = timesArray.find((team) => team.id === Number(id));
-  if (!updateTeam) {
-    return res.status(404).json({ message: 'Team not found' });
-  }
-  updateTeam.nome = nome;
-  updateTeam.sigla = sigla;
-  return res.status(200).json({ updateTeam });
+app.put('/teams/:id', validateTeam, (req, res) => {
+    const { id } = req.params;
+    const { nome, sigla } = req.body;
+  
+    const updateTeam = timesArray.find((team) => team.id === Number(id));
+    if (!updateTeam) {
+      return res.status(404).json({ message: 'Team not found' });
+    }
+    updateTeam.nome = nome;
+    updateTeam.sigla = sigla;
+    return res.status(200).json({ updateTeam });  
 });
 
 app.delete('/teams/:id', (req, res) => {
