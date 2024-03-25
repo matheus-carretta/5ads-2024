@@ -1,5 +1,7 @@
 const express = require('express');
 const validateTeam = require('./middlewares/validateTeam');
+const validateCredential = require('./middlewares/apiCredentials');
+require('express-async-errors');
 
 const app = express();
 
@@ -16,15 +18,15 @@ const timesArray = [
   }
 ]
 
-
-
+app.use(validateCredential); //middleware global
 app.use(express.json());
 
-app.get("/teams", (req, res) => res.status(200).json(
+app.get("/teams", validateCredential, (req, res) => res.status(200).json(
   { teams: timesArray}
 ))
 
 app.post("/teams", validateTeam, (req, res) => {
+    console.log('oioii')
     const newTeam = req.body;
     timesArray.push(newTeam)
     return res.status(201).json({ team: newTeam })
