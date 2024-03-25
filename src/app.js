@@ -1,4 +1,5 @@
 const express = require('express');
+const validateTeam = require('./middlewares/validateTeam');
 
 const app = express();
 
@@ -15,15 +16,7 @@ const timesArray = [
   }
 ]
 
-const validateTeam = (req, res, next) => {
-  const requiredBody = ['nome', 'sigla'];
 
-  if (requiredBody.every((property) => property in req.body)) {
-    next()
-  } else {
-    return res.status(400).json( { message: "Body incorreto"})
-  }
-}
 
 app.use(express.json());
 
@@ -32,7 +25,6 @@ app.get("/teams", (req, res) => res.status(200).json(
 ))
 
 app.post("/teams", validateTeam, (req, res) => {
-  console.log('aloooo')
     const newTeam = req.body;
     timesArray.push(newTeam)
     return res.status(201).json({ team: newTeam })
